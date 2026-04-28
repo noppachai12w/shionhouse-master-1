@@ -205,7 +205,7 @@
                     <div class="col-xl-9 col-lg-9 col-md-8 ">
                         <!--? New Arrival Start -->
                         <div class="new-arrival new-arrival2">
-                            <div class="row">
+                            <div id="product-container" class="row">
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                     <div class="single-new-arrival mb-50 text-center">
@@ -382,6 +382,76 @@
             <span>$ 30.00</span>
         </div>
     </div>
+    
+</div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="single-new-arrival mb-50 text-center">
+            <div class="popular-img">
+                <img src="assets/img/gallery/arrival1.png" alt="">
+                <div class="favorit-items">
+                    <!-- <span class="flaticon-heart"></span> -->
+                    <img src="assets/img/gallery/favorit-card.png" alt="">
+                </div>
+            </div>
+            <div class="popular-caption">
+             <h3><a href="product_details.html">KnittASDasdASDasdASDed Jumper</a></h3>
+             <div class="rating mb-10">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <span>$ 30.00</span>
+        </div>
+    </div>
+    
+</div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="single-new-arrival mb-50 text-center">
+            <div class="popular-img">
+                <img src="assets/img/gallery/arrival1.png" alt="">
+                <div class="favorit-items">
+                    <!-- <span class="flaticon-heart"></span> -->
+                    <img src="assets/img/gallery/favorit-card.png" alt="">
+                </div>
+            </div>
+            <div class="popular-caption">
+             <h3><a href="product_details.html">Knitted Jumper</a></h3>
+             <div class="rating mb-10">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <span>$ 30.00</span>
+        </div>
+    </div>
+    
+</div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="single-new-arrival mb-50 text-center">
+            <div class="popular-img">
+                <img src="assets/img/gallery/arrival1.png" alt="">
+                <div class="favorit-items">
+                    <!-- <span class="flaticon-heart"></span> -->
+                    <img src="assets/img/gallery/favorit-card.png" alt="">
+                </div>
+            </div>
+            <div class="popular-caption">
+             <h3><a href="product_details.html">Knitted Jumper</a></h3>
+             <div class="rating mb-10">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <span>$ 30.00</span>
+        </div>
+    </div>
+    
 </div>
 </div>
 <!-- Button -->
@@ -660,6 +730,77 @@
 <!-- Jquery Plugins, main Jquery -->	
 <script src="./assets/js/plugins.js"></script>
 <script src="./assets/js/main.js"></script>
+
+<script>
+
+/**
+ * Fetches product data from a JSON file and renders it to the DOM.
+ * @param {string} url - The path to the products.json file.
+ */
+async function loadProducts(url) {
+    const container = document.querySelector('#product-container');
+
+    try {
+        const response = await fetch(url);
+        
+        // Check if the request was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const products = await response.json();
+
+        // Clear container before populating (useful for re-renders)
+        container.innerHTML = '';
+
+        // Map through products and create HTML strings
+        const productHTML = products.map(product => {
+            // Generate star icons based on the rating number
+            const stars = Array(product.rating)
+                .fill('<i class="fas fa-star"></i>')
+                .join('');
+
+            return `
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-new-arrival mb-50 text-center">
+                        <div class="popular-img">
+                            <img src="${product.image_url}" alt="${product.name}">
+                            <div class="favorit-items">
+                                <img src="${product.favorit_icon}" alt="Favorite">
+                            </div>
+                        </div>
+                        <div class="popular-caption">
+                            <h3><a href="${product.detail_link}">${product.name}</a></h3>
+                            <div class="rating mb-10">
+                                ${stars}
+                            </div>
+                            <span>${product.currency}${product.price.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>`;
+        }).join('');
+
+        // Inject the full HTML string once to minimize DOM reflows
+        container.innerHTML = productHTML;
+
+    } catch (error) {
+        console.error("Failed to load products:", error);
+        container.innerHTML = `
+            <div class="col-12 text-center">
+                <p class="error-msg">Sorry, we couldn't load the products at this time. Please try again later.</p>
+            </div>`;
+    }
+}
+
+// Call the function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    loadProducts('./data/products.json');
+});
+
+
+</script>
+
+
 
 </body>
 </html>
