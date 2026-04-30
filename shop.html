@@ -775,7 +775,7 @@ async function loadProducts(url) {
                     <div class="single-new-arrival mb-50 text-center">
                         <div class="popular-img">
                             <img src="${product.image_url}" alt="${product.name}">
-                            <div class="favorit-items">
+                            <div class="favorit-items add-to-cart" data-product-id="${product.id}" data-product-price="${product.price}">
                                 <img src="${product.favorit_icon}" alt="Favorite">
                             </div>
                         </div>
@@ -858,7 +858,7 @@ function renderProducts(products) {
                 <div class="single-new-arrival mb-50 text-center">
                     <div class="popular-img">
                         <img src="${product.image_url}" alt="">
-                        <div class="favorit-items">
+                        <div class="favorit-items add-to-cart" data-product-id="${product.id}" data-product-price="${product.price}">
                             <img src="${product.favorit_icon}" alt="">
                         </div>
                     </div>
@@ -985,6 +985,7 @@ searchInput.addEventListener('input', debounce(() => {
 
 
 </script>
+<script src="assets/js/cart-service.js"></script>
 
 
 
